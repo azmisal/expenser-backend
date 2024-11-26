@@ -1,4 +1,5 @@
 const Expense = require("../models/expense"); // Adjust the path to your Expense model
+const User = require("../models/user");
 
 const fetchTodayBalance = async (req, res) => {
   const { userId } = req.body; // Ensure proper extraction of userId

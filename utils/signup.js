@@ -1,5 +1,5 @@
 const Expense = require("../models/expense");
-
+const User = require("../models/user");
 
 const Signup = async (req,res)=>{
     const {username,email, password, monthlyLimit} = req.body;

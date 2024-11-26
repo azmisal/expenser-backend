@@ -1,5 +1,5 @@
 const Expense = require("../models/expense");
-
+const User = require("../models/user");
 
 const Intialiser = async (req,res)=>{
     const { userId } = req.body;
@@ -16,7 +16,7 @@ const Intialiser = async (req,res)=>{
     }
 
     const year = new Date().getFullYear();
-    const month = new Date().getMonth();
+    const month = new Date().getMonth()+1;
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const dailyLimit = Math.floor(user.monthlyLimit / daysInMonth);
 
@@ -30,11 +30,12 @@ const Intialiser = async (req,res)=>{
         months: [],
       });
     }
+    
 
     const monthData = expense.months.find((m) => m.month === month);
     if (!monthData) {
       expense.months.push({
-        month: month+1,
+        month: month,
         expenses: Array.from({ length: daysInMonth }, (_, index) => ({
           day: index + 1,
           amount: dailyLimit,
@@ -42,9 +43,10 @@ const Intialiser = async (req,res)=>{
       });
     }
 
+
     await expense.save();
 
-    res.status(200).json({ message: "Initialised expenses for the user" });
+    res.status(200).json({ message: "Initialised expenses for the user"+ expense });
   } catch (err) {
     console.log("Ran into an Error:", err);
     res.status(500).json({ message: "Failed to initialise expenses", error: err });
