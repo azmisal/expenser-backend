@@ -1,12 +1,24 @@
 const mongoose = require("mongoose");
+const { validate } = require("./user");
 
 const expenseSchema = new mongoose.Schema({
-  userId: { type: Number, required: true, unique:true },
-  limit :{type: Number, required: true},
-  year: { type: Number, required: true },
-  month: { type: Number, required: true }, // 1 for January, 12 for December
-  day: { type: Number, required: true }, // Day of the month (1-31)
-  amount: { type: Number, required: true }, // Expense amount for the specific day
+    userId:{
+        type: String, required:true
+    },
+    year: { type: Number, required: true },
+    limit:{type:Number, required:true},
+    months:[
+        {
+            month:{type:Number, required:true},
+            expenses:[
+                {
+                    day:{type: Number},
+                    amount:{type: Number}
+                }
+            ]
+        }
+    ]
 });
 
-module.exports = mongoose.model("Expense", expenseSchema);
+module.exports = mongoose.model("Expense",expenseSchema);
+
